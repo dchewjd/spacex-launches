@@ -15,11 +15,11 @@ export const getStaticProps: GetStaticProps = async () => {
   const { data } = await client.query<Launches>({
     query: gql`
       query GetLaunches {
-        launchesPast(limit: 12) {
+        launchesPast(limit: 20, offset: 8) {
           id
           launch_date_local
           links {
-            article_link
+            wikipedia
           }
           rocket {
             rocket_name
@@ -41,7 +41,7 @@ type Launch = {
   id: string;
   launch_date_local: string;
   links: {
-    article_link: string;
+    wikipedia: string;
   };
   rocket: {
     rocket_name: string;
@@ -57,7 +57,7 @@ const Home: NextPage<{ launches: Launch[] }> = ({ launches }) => {
   return (
     <>
       <Head>
-        <title>Space X to the Mars</title>
+        <title>Space X to Mars</title>
         <meta name="description" content="Let's go to Mars" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -73,7 +73,7 @@ const Home: NextPage<{ launches: Launch[] }> = ({ launches }) => {
           {launches.map((launch: Launch) => (
             <a
               key={launch.id}
-              href={launch.links.article_link}
+              href={launch.links.wikipedia}
               className={styles.card}
               target="_blank"
               rel="noopener noreferrer"
